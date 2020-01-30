@@ -19,6 +19,11 @@ app.use(cookieParser());
 require('dotenv').config();
 require('./config/database');
 
+//Routes
+const apiRouter = require('./routes/api');
+app.use('/api', apiRouter);
+
+
 
 // POST route to register a user
 app.post('/api/register', function(req, res) {
