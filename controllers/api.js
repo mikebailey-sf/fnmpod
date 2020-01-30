@@ -1,10 +1,31 @@
 var Friday = require('../models/Friday');
 
 module.exports = {
-  createDates
+  createDates,
+  listDates,
+  deleteDates
 }
 
 function createDates(req, res){
-  let date = new Date();
-  return res.send(date);
+  let date = new Date('2020-1-31');
+  for (i = 1; i < 52; i++){
+    date.setDate(date.getDate() + (7 * i));    
+    let friday = new Friday({
+      date: date
+    });
+    friday.save();
+  }
+  return res.send('Dates Created');
+}
+
+function listDates(req, res){
+  Friday.find({}, function(err, fridays) {
+    return res.send(fridays)
+  });
+}
+
+function deleteDates(req, res){
+  Friday.deleteMany({}, function(err){
+    if (err) return handleError(err);
+  });
 }
